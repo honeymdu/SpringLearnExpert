@@ -2,7 +2,6 @@ package com.example.SpringLearnExpert.Controllers;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +32,8 @@ public class EmployeeController {
 
     @GetMapping("/getemployee/{Id}")
     public ResponseEntity<EmployeeDto> getEmployees(@PathVariable Long Id) {
-        Optional<EmployeeDto> employeeDto = employeesService.getEmployeeById(Id);
-        return employeeDto
-                .map(employeeDto1 -> ResponseEntity.ok(employeeDto1)).orElse(ResponseEntity.notFound().build());
+        EmployeeDto employeeDto = employeesService.getEmployeeById(Id);
+        return ResponseEntity.ok(employeeDto);
     }
 
     @PostMapping("/addemployee")
@@ -52,9 +50,7 @@ public class EmployeeController {
 
     @DeleteMapping("/deleteemployee/{Id}")
     public ResponseEntity<Boolean> deleteEmployeeByid(@PathVariable Long Id) {
-        Boolean gotDeleted = employeesService.deleteEmployeeById(Id);
-        if (gotDeleted)
-            return ResponseEntity.ok(true);
+        employeesService.deleteEmployeeById(Id);
         return ResponseEntity.notFound().build();
     }
 
